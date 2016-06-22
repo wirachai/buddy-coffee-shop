@@ -1,21 +1,17 @@
 package com.iconext.buddycoffeeshop.model;
 
 public class OrderItem {
-    private Item item;
+    private int itemId;
     private int quantity;
     private double amount;
     private double discount;
 
-    public OrderItem(Item item) {
-        this.item = item;
+    public int getItemId() {
+        return itemId;
     }
 
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public int getQuantity() {

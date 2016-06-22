@@ -8,7 +8,11 @@ public class Receipt {
     private List<OrderItem> items;
 
     public double getTotalPrice() {
-        return 0;
+        double total = 0;
+        for (OrderItem item : items) {
+            total += item.getAmount() - item.getDiscount();
+        }
+        return total;
     }
 
     public List<OrderItem> getItems() {
