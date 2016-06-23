@@ -1,25 +1,34 @@
 package com.iconext.buddycoffeeshop;
 
+import com.iconext.buddycoffeeshop.model.Item;
 import com.iconext.buddycoffeeshop.model.OrderItem;
+import com.iconext.buddycoffeeshop.repository.ItemRepository;
 
 import java.util.List;
 
 public class Receipt {
-    private List<OrderItem> items;
+    private List<OrderItem> orderItems;
 
     public double getTotalPrice() {
-        double total = 0;
-        for (OrderItem item : items) {
-            total += item.getAmount() - item.getDiscount();
+        for (OrderItem orderItem : orderItems) {
+            ItemRepository itemRepository = new ItemRepository();
+            Item item = itemRepository.get(orderItem.getItemId());
+
+            orderItem.setAmount(orderItem.getQuantity() * item.getPrice());
+        }
+
+        float total = 0;
+        for (OrderItem orderItem : orderItems) {
+            total += orderItem.getAmount() - orderItem.getDiscount();
         }
         return total;
     }
 
-    public List<OrderItem> getItems() {
-        return items;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
+    public void setOrderItems(List<OrderItem> items) {
+        this.orderItems = items;
     }
 }

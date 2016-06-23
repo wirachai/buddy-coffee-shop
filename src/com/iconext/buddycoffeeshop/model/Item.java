@@ -4,7 +4,7 @@ public class Item {
     private int itemId;
     private String name;
     private String category;
-    private double price;
+    private float price;
 
     public int getItemId() {
         return itemId;
@@ -34,7 +34,7 @@ public class Item {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 }
