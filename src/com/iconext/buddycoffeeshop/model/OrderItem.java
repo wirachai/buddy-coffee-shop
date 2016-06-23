@@ -3,8 +3,8 @@ package com.iconext.buddycoffeeshop.model;
 public class OrderItem {
     private int itemId;
     private int quantity;
-    private double amount;
-    private double discount;
+    private float amount;
+    private float discount;
 
     public int getItemId() {
         return itemId;
@@ -22,19 +22,19 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public double getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
-    public double getDiscount() {
+    public float getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(float discount) {
         this.discount = discount;
     }
 }

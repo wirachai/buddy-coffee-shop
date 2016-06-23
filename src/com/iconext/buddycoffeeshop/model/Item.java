@@ -30,7 +30,7 @@ public class Item {
         this.category = category;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
