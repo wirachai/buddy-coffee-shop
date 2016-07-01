@@ -1,10 +1,10 @@
-package com.iconext.buddycoffeeshop.repository;
+package com.iconext.buddycoffeeshop.database;
 
 import com.iconext.buddycoffeeshop.model.Item;
 
 import java.util.ArrayList;
 
-public class ItemRepository {
+public class DataAccess {
 
     public ArrayList<Item> getAll() {
         // In read life, this method should connect database to query data.

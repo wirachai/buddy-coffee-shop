@@ -2,7 +2,7 @@ package com.iconext.buddycoffeeshop;
 
 import com.iconext.buddycoffeeshop.model.Item;
 import com.iconext.buddycoffeeshop.model.OrderItem;
-import com.iconext.buddycoffeeshop.repository.ItemRepository;
+import com.iconext.buddycoffeeshop.database.DataAccess;
 
 import java.util.List;
 
@@ -10,48 +10,59 @@ public class Receipt {
     private List<OrderItem> list;
 
     public double calculate() {
-        int tmp = 0, tmp2 = 0, sum = 0;
-        for (OrderItem orderItem : list) {
-            ItemRepository itemRepository = new ItemRepository();
-            Item item = itemRepository.get(orderItem.getItemId());
+        int tmp = 0, tmp2 = 0, tmp3 = 0, sum = 0;
+        for (OrderItem i : list) {
+            DataAccess dao = new DataAccess();
+            Item itm = dao.get(i.getItemId());
 
-            if (item.getCategory() == "Espresso") {
-                orderItem.setDiscount(orderItem.getQuantity() * 5);
+            // if expresso
+            if (itm.getCategory() == "Espresso") {
+                i.setDiscount(i.getQuantity() * 5);
             } else {
-                if (item.getCategory() == "Hot Coffee") {
-                    tmp2 += orderItem.getQuantity();
+                if (itm.getCategory() == "Hot Coffee") {
+                    tmp2 += i.getQuantity();
                 } else {
-                    if (item.getCategory() == "Iced Coffee") {
+                    if (itm.getCategory() == "Ice Coffee") {
 
                     } else {
-                        if (item.getCategory() == "Smoothie") {
-                            tmp += orderItem.getQuantity();
+                        if (itm.getCategory() == "Joice") {
+                            tmp3++;
+                        } else {
+                            if (itm.getCategory() == "Tea") {
+
+                            } else {
+                                if (itm.getCategory() == "Smoothie") {
+                                    tmp += i.getQuantity();
+                                }
+                            }
                         }
                     }
                 }
             }
-            sum += orderItem.getQuantity();
+            sum += i.getQuantity();
 
-            orderItem.setAmount(orderItem.getQuantity() * item.getPrice());
+            i.setAmount(i.getQuantity() * itm.getPrice());
         }
 
+        // calculate smoothie
         if (tmp > 0 && tmp % 2 == 0) {
-            for (OrderItem orderItem : list) {
-                ItemRepository itemRepository = new ItemRepository();
-                Item item = itemRepository.get(orderItem.getItemId());
+            for (OrderItem i : list) {
+                DataAccess dao = new DataAccess();
+                Item item = dao.get(i.getItemId());
                 if (item.getCategory() == "Smoothie") {
-                    orderItem.setDiscount(orderItem.getQuantity() * (item.getPrice() * 20.0f / 100.0f));
+                    i.setDiscount(i.getQuantity() * (item.getPrice() * 20.0f / 100.0f));
                 }
             }
         }
 
+        // calculate hot coffee
         if (tmp2 >= 3) {
             int min = -1;
             float price = 999;
             for (int i = 0; i < list.size(); i++) {
-                ItemRepository itemRepository = new ItemRepository();
+                DataAccess dao = new DataAccess();
                 OrderItem orderItem = list.get(i);
-                Item item = itemRepository.get(orderItem.getItemId());
+                Item item = dao.get(orderItem.getItemId());
                 if (item.getCategory() == "Hot Coffee") {
                     if (item.getPrice() < price) {
                         min = i;
@@ -64,16 +75,22 @@ public class Receipt {
         }
 
         if (sum >= 5) {
-            for (OrderItem orderItem : list) {
-                orderItem.setDiscount(orderItem.getDiscount() + (orderItem.getQuantity() * 5));
+            for (OrderItem i : list) {
+                i.setDiscount(i.getDiscount() + (i.getQuantity() * 5));
             }
         }
 
-        float total = 0;
-        for (OrderItem orderItem : list) {
-            total += orderItem.getAmount() - orderItem.getDiscount();
+        // ================================================================================
+        // summary total
+        // ================================================================================
+        float amt = 0, dis = 0, sum2 = 0;
+        for (OrderItem i : list) {
+            amt += i.getAmount();
+            dis += i.getDiscount();
+            sum2 += i.getAmount() - i.getDiscount();
         }
-        return total;
+
+        return sum2;
     }
 
     public List<OrderItem> getList() {
