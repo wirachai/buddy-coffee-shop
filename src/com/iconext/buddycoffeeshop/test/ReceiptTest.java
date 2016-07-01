@@ -18,10 +18,10 @@ public class ReceiptTest {
         orderItems.add(orderItem);
 
         Receipt receipt = new Receipt();
-        receipt.setOrderItems(orderItems);
+        receipt.setList(orderItems);
 
         // act
-        double totalPrice = receipt.getTotalPrice();
+        double totalPrice = receipt.calculate();
 
         // assert
         Assert.assertEquals(50.0, totalPrice, 0.001);
@@ -37,10 +37,10 @@ public class ReceiptTest {
         orderItems.add(orderItem);
 
         Receipt receipt = new Receipt();
-        receipt.setOrderItems(orderItems);
+        receipt.setList(orderItems);
 
         // act
-        double totalPrice = receipt.getTotalPrice();
+        double totalPrice = receipt.calculate();
 
         // assert
         Assert.assertEquals(120.0, totalPrice, 0.001);
@@ -56,10 +56,10 @@ public class ReceiptTest {
         orderItems.add(orderItem);
 
         Receipt receipt = new Receipt();
-        receipt.setOrderItems(orderItems);
+        receipt.setList(orderItems);
 
         // act
-        double totalPrice = receipt.getTotalPrice();
+        double totalPrice = receipt.calculate();
 
         // assert
         Assert.assertEquals(80.0, totalPrice, 0.001);
@@ -75,10 +75,10 @@ public class ReceiptTest {
         orderItems.add(orderItem);
 
         Receipt receipt = new Receipt();
-        receipt.setOrderItems(orderItems);
+        receipt.setList(orderItems);
 
         // act
-        double totalPrice = receipt.getTotalPrice();
+        double totalPrice = receipt.calculate();
 
         // assert
         Assert.assertEquals(96.0, totalPrice, 0.001);
@@ -101,10 +101,10 @@ public class ReceiptTest {
         orderItems.add(orderItem);
 
         Receipt receipt = new Receipt();
-        receipt.setOrderItems(orderItems);
+        receipt.setList(orderItems);
 
         // act
-        double totalPrice = receipt.getTotalPrice();
+        double totalPrice = receipt.calculate();
 
         // assert
         Assert.assertEquals(96.0, totalPrice, 0.001);
@@ -127,10 +127,10 @@ public class ReceiptTest {
         orderItems.add(orderItem);
 
         Receipt receipt = new Receipt();
-        receipt.setOrderItems(orderItems);
+        receipt.setList(orderItems);
 
         // act
-        double totalPrice = receipt.getTotalPrice();
+        double totalPrice = receipt.calculate();
 
         // assert
         Assert.assertEquals(110.0, totalPrice, 0.001);
@@ -165,10 +165,10 @@ public class ReceiptTest {
         // 260 - 30
 
         Receipt receipt = new Receipt();
-        receipt.setOrderItems(orderItems);
+        receipt.setList(orderItems);
 
         // act
-        double totalPrice = receipt.getTotalPrice();
+        double totalPrice = receipt.calculate();
 
         // assert
         Assert.assertEquals(230.0, totalPrice, 0.001);

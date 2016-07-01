@@ -7,30 +7,36 @@ import com.iconext.buddycoffeeshop.repository.ItemRepository;
 import java.util.List;
 
 public class Receipt {
-    private List<OrderItem> orderItems;
+    private List<OrderItem> list;
 
-    public double getTotalPrice() {
-        int smoothieQuantity = 0;
-        int hotCoffeeQuantity = 0;
-        int totalQuantity = 0;
-        for (OrderItem orderItem : orderItems) {
+    public double calculate() {
+        int tmp = 0, tmp2 = 0, sum = 0;
+        for (OrderItem orderItem : list) {
             ItemRepository itemRepository = new ItemRepository();
             Item item = itemRepository.get(orderItem.getItemId());
 
             if (item.getCategory() == "Espresso") {
                 orderItem.setDiscount(orderItem.getQuantity() * 5);
-            } else if (item.getCategory() == "Hot Coffee") {
-                hotCoffeeQuantity += orderItem.getQuantity();
-            } else if (item.getCategory() == "Smoothie") {
-                smoothieQuantity += orderItem.getQuantity();
+            } else {
+                if (item.getCategory() == "Hot Coffee") {
+                    tmp2 += orderItem.getQuantity();
+                } else {
+                    if (item.getCategory() == "Iced Coffee") {
+
+                    } else {
+                        if (item.getCategory() == "Smoothie") {
+                            tmp += orderItem.getQuantity();
+                        }
+                    }
+                }
             }
-            totalQuantity += orderItem.getQuantity();
+            sum += orderItem.getQuantity();
 
             orderItem.setAmount(orderItem.getQuantity() * item.getPrice());
         }
 
-        if (smoothieQuantity > 0 && smoothieQuantity % 2 == 0) {
-            for (OrderItem orderItem : orderItems) {
+        if (tmp > 0 && tmp % 2 == 0) {
+            for (OrderItem orderItem : list) {
                 ItemRepository itemRepository = new ItemRepository();
                 Item item = itemRepository.get(orderItem.getItemId());
                 if (item.getCategory() == "Smoothie") {
@@ -39,42 +45,42 @@ public class Receipt {
             }
         }
 
-        if (hotCoffeeQuantity >= 3) {
-            int lowestHotCoffeeIndex = -1;
-            float lowestHotCoffeePrice = 999;
-            for (int i = 0; i < orderItems.size(); i++) {
+        if (tmp2 >= 3) {
+            int min = -1;
+            float price = 999;
+            for (int i = 0; i < list.size(); i++) {
                 ItemRepository itemRepository = new ItemRepository();
-                OrderItem orderItem = orderItems.get(i);
+                OrderItem orderItem = list.get(i);
                 Item item = itemRepository.get(orderItem.getItemId());
                 if (item.getCategory() == "Hot Coffee") {
-                    if (item.getPrice() < lowestHotCoffeePrice) {
-                        lowestHotCoffeeIndex = i;
-                        lowestHotCoffeePrice = item.getPrice();
+                    if (item.getPrice() < price) {
+                        min = i;
+                        price = item.getPrice();
                     }
                 }
             }
 
-            orderItems.get(lowestHotCoffeeIndex).setDiscount(lowestHotCoffeePrice);
+            list.get(min).setDiscount(price);
         }
 
-        if (totalQuantity >= 5) {
-            for (OrderItem orderItem : orderItems) {
+        if (sum >= 5) {
+            for (OrderItem orderItem : list) {
                 orderItem.setDiscount(orderItem.getDiscount() + (orderItem.getQuantity() * 5));
             }
         }
 
         float total = 0;
-        for (OrderItem orderItem : orderItems) {
+        for (OrderItem orderItem : list) {
             total += orderItem.getAmount() - orderItem.getDiscount();
         }
         return total;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<OrderItem> getList() {
+        return list;
     }
 
-    public void setOrderItems(List<OrderItem> items) {
-        this.orderItems = items;
+    public void setList(List<OrderItem> items) {
+        this.list = items;
     }
 }
