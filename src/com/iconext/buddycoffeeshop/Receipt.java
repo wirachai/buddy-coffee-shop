@@ -18,7 +18,7 @@ public class Receipt {
             Item item = itemRepository.get(orderItem.getItemId());
 
             if (item.getCategory() == "Espresso") {
-                orderItem.setDiscount(5);
+                orderItem.setDiscount(orderItem.getQuantity() * 5);
             } else if (item.getCategory() == "Hot Coffee") {
                 hotCoffeeQuantity += orderItem.getQuantity();
             } else if (item.getCategory() == "Smoothie") {
