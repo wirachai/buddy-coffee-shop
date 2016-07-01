@@ -1,5 +1,6 @@
 package com.iconext.buddycoffeeshop;
 
+import com.iconext.buddycoffeeshop.constant.CoffeeCategory;
 import com.iconext.buddycoffeeshop.model.Item;
 import com.iconext.buddycoffeeshop.model.OrderItem;
 import com.iconext.buddycoffeeshop.repository.ItemRepository;
@@ -17,11 +18,11 @@ public class Receipt {
             ItemRepository itemRepository = new ItemRepository();
             Item item = itemRepository.get(orderItem.getItemId());
 
-            if (item.getCategory() == "Espresso") {
+            if (item.getCategory() == CoffeeCategory.Espresso) {
                 orderItem.setDiscount(orderItem.getQuantity() * 5);
-            } else if (item.getCategory() == "Hot Coffee") {
+            } else if (item.getCategory() == CoffeeCategory.HotCoffee) {
                 hotCoffeeQuantity += orderItem.getQuantity();
-            } else if (item.getCategory() == "Smoothie") {
+            } else if (item.getCategory() == CoffeeCategory.Smoothie) {
                 smoothieQuantity += orderItem.getQuantity();
             }
             totalQuantity += orderItem.getQuantity();
@@ -33,7 +34,7 @@ public class Receipt {
             for (OrderItem orderItem : orderItems) {
                 ItemRepository itemRepository = new ItemRepository();
                 Item item = itemRepository.get(orderItem.getItemId());
-                if (item.getCategory() == "Smoothie") {
+                if (item.getCategory() == CoffeeCategory.Smoothie) {
                     orderItem.setDiscount(orderItem.getQuantity() * (item.getPrice() * 20.0f / 100.0f));
                 }
             }
@@ -46,7 +47,7 @@ public class Receipt {
                 ItemRepository itemRepository = new ItemRepository();
                 OrderItem orderItem = orderItems.get(i);
                 Item item = itemRepository.get(orderItem.getItemId());
-                if (item.getCategory() == "Hot Coffee") {
+                if (item.getCategory() == CoffeeCategory.HotCoffee) {
                     if (item.getPrice() < lowestHotCoffeePrice) {
                         lowestHotCoffeeIndex = i;
                         lowestHotCoffeePrice = item.getPrice();
