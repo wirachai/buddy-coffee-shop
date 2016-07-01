@@ -17,6 +17,8 @@ public class Receipt {
 
             // if expresso
             if (itm.getCategory() == "Espresso") {
+                // Fixed by Apinut 20160623
+                //i.setDiscount(5);
                 i.setDiscount(i.getQuantity() * 5);
             } else {
                 if (itm.getCategory() == "Hot Coffee") {
@@ -44,13 +46,14 @@ public class Receipt {
             i.setAmount(i.getQuantity() * itm.getPrice());
         }
 
+        // Requested P' Jittakorn : 20160624
         // calculate smoothie
         if (tmp > 0 && tmp % 2 == 0) {
             for (OrderItem i : list) {
                 DataAccess dao = new DataAccess();
-                Item item = dao.get(i.getItemId());
-                if (item.getCategory() == "Smoothie") {
-                    i.setDiscount(i.getQuantity() * (item.getPrice() * 20.0f / 100.0f));
+                Item itm = dao.get(i.getItemId());
+                if (itm.getCategory() == "Smoothie") {
+                    i.setDiscount(i.getQuantity() * (itm.getPrice() * 20.0f / 100.0f));
                 }
             }
         }
